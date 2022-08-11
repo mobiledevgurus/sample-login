@@ -36,7 +36,84 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
+                    LoginScreen()
                 }
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun LoginScreen() {
+
+    var email by rememberSaveable { mutableStateOf("") }
+    var password by rememberSaveable { mutableStateOf("") }
+    var isPasswordVisible by rememberSaveable { mutableStateOf(false) }
+
+    Scaffold {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxSize()
+        ) {
+
+            Spacer(modifier = Modifier.padding(top = 70.dp))
+
+            Image(
+                painter = painterResource(id = R.drawable.logo),
+                contentDescription = "Logo"
+            )
+
+            Text(
+                text = "Email"
+            )
+
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = email,
+                onValueChange = { email = it },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+            )
+
+            Text(
+                text = "Password"
+            )
+
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = password,
+                onValueChange = { password = it },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                trailingIcon = {
+                    val image = if (isPasswordVisible) Icons.Filled.Visibility
+                    else Icons.Filled.VisibilityOff
+
+                    IconButton(
+                        modifier = Modifier.alpha(.3f),
+                        onClick = {
+                            isPasswordVisible = !isPasswordVisible
+                        }
+                    ) {
+                        Icon(
+                            imageVector = image,
+                            contentDescription = "Password visibility icon"
+                        )
+                    }
+                }
+            )
+
+            Spacer(modifier = Modifier.padding(top = 12.dp))
+
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                onClick = { /*TODO*/ }
+            ) {
+                Text(text = "Login")
             }
         }
     }
